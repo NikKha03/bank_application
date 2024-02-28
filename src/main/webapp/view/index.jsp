@@ -26,5 +26,11 @@
     <input type="number" name="balance" placeholder="Balance" min="0" step="0.01"><br/>
     <input type="submit" value="Create"><br/>
 </form>
+<c:if test="${requestScope.accountExistsError}" var="true">
+    <div style="color: red">Такой пользователь уже существует!</div>
+</c:if>
+<c:if test="${requestScope.emptyFiled}" var="true">
+    <div style="color: red">Поля name и password должны быть заполнены!</div>
+</c:if>
 </body>
 </html>
