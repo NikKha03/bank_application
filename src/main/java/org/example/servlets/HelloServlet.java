@@ -26,13 +26,25 @@ public class HelloServlet extends HttpServlet {
         repository.put(user1.getName(), user1);
         repository.put(user2.getName(), user2);
         repository.put(user3.getName(), user3);
-
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("accounts", repository);
+        req.setAttribute("accounts", repository.values());
         req.getRequestDispatcher("/view/index.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        if (repository.containsKey(name)) doGet(req, resp);
+        String password = req.getParameter("password");
+        Double balance = Double.valueOf(req.getParameter("balance"));
+        Account account = new Account(name, password, balance);
+
+        repository.put(name, account);
+
+        doGet(req, resp);
     }
 
     @Override

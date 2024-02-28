@@ -1,30 +1,30 @@
-<%@ page import="java.util.Map" %>
-<%@ page import="org.example.servlets.model.Account" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
     <title>SignUp</title>
 </head>
 <body>
-<%
-    Map<String, Account> accounts = (Map<String, Account>) request.getAttribute("accounts");
-%>
-    <h2>Все пользователи:</h2>
-    <table>
+<h2>Все пользователи:</h2>
+<table>
+    <tr>
+        <th>Account name</th>
+        <th>Balance</th>
+    </tr>
+    <c:forEach items="${requestScope.accounts}" var="account">
         <tr>
-            <th>Account name</th>
-            <th>Balance</th>
+            <td>${account.name}</td>
+            <td>${account.balance}</td>
         </tr>
-        <%
-            for (var account : accounts.entrySet()) {
-        %>
-        <tr>
-            <td><%=account.getValue().getName()%></td>
-            <td><%=account.getValue().getBalance()%></td>
-        </tr>
-        <%
-            }
-        %>
-    </table>
+    </c:forEach>
+</table>
+<hr/>
+<h2>Создание нового пользователя</h2>
+<form method="post">
+    <input type="text" name="name" placeholder="Account name" minlength="5" maxlength="20"><br/>
+    <input type="password" name="password" placeholder="Password" minlength="5"><br/>
+    <input type="number" name="balance" placeholder="Balance" min="0" step="0.01"><br/>
+    <input type="submit" value="Create"><br/>
+</form>
 </body>
 </html>
