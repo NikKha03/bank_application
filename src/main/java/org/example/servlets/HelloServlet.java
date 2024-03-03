@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.servlets.exception.UserIsAlreadyExistsException;
 import org.example.servlets.service.AccountService;
-import org.example.servlets.service.impl.MyAccountServiceImpl;
+import org.example.servlets.util.ObjectFactory;
 
 import java.io.IOException;
 
@@ -17,7 +17,11 @@ public class HelloServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        service = new MyAccountServiceImpl();
+        try {
+            service = ObjectFactory.getInstance().createObject(AccountService.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

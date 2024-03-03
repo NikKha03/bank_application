@@ -6,6 +6,7 @@ import org.example.servlets.model.Account;
 import org.example.servlets.repository.AccountRepository;
 import org.example.servlets.repository.impl.InMemoryAccountRepositoryImpl;
 import org.example.servlets.service.AccountService;
+import org.example.servlets.util.ObjectFactory;
 
 import java.util.Map;
 
@@ -13,7 +14,11 @@ public class MyAccountServiceImpl implements AccountService {
     private AccountRepository repository;
 
     public MyAccountServiceImpl() {
-        this.repository = new InMemoryAccountRepositoryImpl();
+        try {
+            this.repository = ObjectFactory.getInstance().createObject(AccountRepository.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
